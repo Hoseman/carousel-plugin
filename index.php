@@ -16,6 +16,7 @@ function ah65_carousel_enqueue_styles() {
 add_action('wp_enqueue_scripts', 'ah65_carousel_enqueue_styles');
 
 function carousel_shortcode() {
+    $total_posts = 0;
     // Custom query to get carousel posts
     $carousel_posts = new WP_Query(array(
         'post_type' => 'carousel',
@@ -35,7 +36,11 @@ function carousel_shortcode() {
             $title = get_the_title();
             $excerpt = get_the_excerpt();
             $thumbnail = get_the_post_thumbnail();
-            $total_posts = $carousel_posts->found_posts;
+            if(!empty($carousel_posts->found_posts)){
+                $total_posts = $carousel_posts->found_posts;
+            } else {
+                $total_posts = 0;
+            }
             
             // Output HTML for each carousel slide
             $output .= '<div class="ah65-carousel__slide-'.$count.'">
